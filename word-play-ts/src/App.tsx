@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import './App.css';
 import SplashPage from './components/SplashPage';
 
 function App() {

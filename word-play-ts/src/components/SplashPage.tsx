@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, TypedUseSelectorHook } from "react-redux";
 import { parseDate } from "./Carousels/PuzzlesOfTheDay";
 import { user, wordgon, userPlaceholder, wordgonPlaceholder } from "../classes/types";
+import { appUseSelector, totalState } from "../store";
 // import { ListableBoxAndLetters, DetailsByStatus } from "./WordGon/WordGonBox";
 
 
 export default function SplashPage() {
-    // const currentUser = useSelector((state: unknown): user => state?.session?.user || userPlaceholder);
+
+    const currentUser: user = appUseSelector((state: totalState) => state.user)
     const [isLoaded, setIsLoaded] = useState(false);
     const [puzzle, setPuzzle]: [wordgon, Function] = useState(wordgonPlaceholder);
     const history = useHistory();
@@ -15,6 +17,7 @@ export default function SplashPage() {
 
     useEffect(() => {
         const today_date = new Date();
+        console.log('***', currentUser);
         (async () => {
             const res = await fetch(`/api/wordgons/by_date/${today_date.getFullYear()}-${today_date.getUTCMonth() + 1}-${today_date.getDate()}`);
             const data = await res.json()
