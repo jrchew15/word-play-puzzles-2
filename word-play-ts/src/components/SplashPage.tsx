@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { parseDate } from "./Carousels/PuzzlesOfTheDay";
+import { user, wordgon, userPlaceholder, wordgonPlaceholder } from "../classes/types";
 // import { ListableBoxAndLetters, DetailsByStatus } from "./WordGon/WordGonBox";
 
 
 export default function SplashPage() {
-    // const currentUser = useSelector((state) => state.session.user);
+    // const currentUser = useSelector((state: unknown): user => state?.session?.user || userPlaceholder);
     const [isLoaded, setIsLoaded] = useState(false);
-    const placeholder: { [puzzleDay: string]: string } = {};
-    const [puzzle, setPuzzle] = useState(placeholder);
+    const [puzzle, setPuzzle]: [wordgon, Function] = useState(wordgonPlaceholder);
     const history = useHistory();
 
 
@@ -26,7 +26,7 @@ export default function SplashPage() {
         })()
     }, [setPuzzle])
 
-    if (!isLoaded || !puzzle) {
+    if (!isLoaded || !puzzle.id) {
         return null
     }
 

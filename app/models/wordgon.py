@@ -20,7 +20,6 @@ class WordGon(db.Model):
             "id": self.id,
             "letters": self.letters,
             "userId": self.user_id,
-            "shape": self.shape,
             "numAttempts": self.num_attempts,
             "puzzleDay": str(self.puzzle_day),
             "user": self.user.to_dict(),

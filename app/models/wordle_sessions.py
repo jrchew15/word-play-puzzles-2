@@ -23,7 +23,7 @@ class WordleSession(db.Model):
             "puzzleId": self.puzzle_id,
             'userId': self.user_id,
             'guesses': self.guesses,
-            'num_guesses': self.num_guesses,
+            'numGuesses': self.num_guesses,
             'completed': self.completed,
             'created_at': self.created_at,
             'updated_at': self.updated_at
