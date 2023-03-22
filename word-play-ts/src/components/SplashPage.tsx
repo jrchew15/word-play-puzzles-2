@@ -1,4 +1,4 @@
-import { useState, useEffect, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { parseDate } from "./Carousels/PuzzlesOfTheDay";
@@ -6,15 +6,15 @@ import { parseDate } from "./Carousels/PuzzlesOfTheDay";
 
 
 export default function SplashPage() {
-    const currentUser = useSelector((state) => state.session.user);
-    const [isLoaded, setIsLoaded] = useState(false)
-
-    const [puzzle, setPuzzle]: [null, SetStateAction] = useState(null)
+    // const currentUser = useSelector((state) => state.session.user);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const placeholder: { [puzzleDay: string]: string } = {};
+    const [puzzle, setPuzzle] = useState(placeholder);
     const history = useHistory();
 
-    const today_date = new Date();
 
     useEffect(() => {
+        const today_date = new Date();
         (async () => {
             const res = await fetch(`/api/wordgons/by_date/${today_date.getFullYear()}-${today_date.getUTCMonth() + 1}-${today_date.getDate()}`);
             const data = await res.json()
@@ -30,15 +30,15 @@ export default function SplashPage() {
         return null
     }
 
-
-    return currentUser?.id ? <Redirect to='/' /> : <div id='splash'>
+    // return currentUser.id ? <Redirect to='/' /> : <div id='splash'>
+    return <div id='splash'>
         <img id='splash-bkg' src='/static/images/icon_square.svg' alt='word-play' className="unselectable" />
         <h1 style={{ fontSize: '3em' }}>Welcome to Word Play</h1>
         <div id='splash-card-container'>
             <div className='splash-card' onClick={() => history.push(`/wordgons/${puzzle.id}`)}>
                 <h2>Puzzle of the Day</h2>
                 <div style={{ backgroundColor: 'rgb(253 181 21 / 64%)', width: '100%', display: 'flex', justifyContent: 'center', padding: '5px 0', borderTop: '2px solid black' }}>
-                    <span style={{ margin: '5px 0' }}>{parseDate(puzzle?.puzzleDay)}</span>
+                    <span style={{ margin: '5px 0' }}>{parseDate(puzzle.puzzleDay)}</span>
                 </div>
                 <div style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', backgroundColor: 'rgb(253 181 21 / 64%)', borderRadius: '0 0 15px 15px' }}>
                     {/* <ListableBoxAndLetters letters={puzzle.letters} puzzleId={puzzle.id} />
