@@ -2,10 +2,11 @@ import React, { useContext, useRef, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Props } from '../classes/types';
 import './Modal.css';
+import { ReactNode } from 'react';
 
 const ModalContext = React.createContext(null);
 
-export function ModalProvider(props: Props) {
+export function ModalProvider(props: { children: ReactNode }) {
 
     const modalRef = useRef(null);
     const [value, setValue] = useState(null);

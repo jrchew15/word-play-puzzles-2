@@ -1,12 +1,19 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 import SplashPage from './components/SplashPage';
 
 function App() {
   return (
-    <div className="App">
-      <SplashPage />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Switch>
+          <Route path={'/'}>
+            <SplashPage />
+          </Route>
+        </Switch>
+      </div>
+    </BrowserRouter>
   );
 }
 

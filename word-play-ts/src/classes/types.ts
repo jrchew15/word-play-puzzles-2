@@ -56,6 +56,21 @@ export interface wordgonSession {
     updatedAt?: string;
 }
 
+export const wordgonSessionPlaceholder: wordgonSession = {
+    id: 0,
+    puzzleId: 0,
+    userId: 0,
+    guesses: '',
+    numGuesses: 0,
+    completed: false
+}
+
+export interface wordle {
+    id: number;
+    word: string;
+    puzzleDay?: string;
+}
+
 export interface wordleSession {
     id: number;
     puzzleId: number;
@@ -65,4 +80,13 @@ export interface wordleSession {
     completed: boolean;
     createdAt?: string;
     updatedAt?: string;
+}
+
+export const wordleSessionPlaceholder: wordleSession = {
+    id: 0,
+    puzzleId: 0,
+    userId: 0,
+    guesses: '',
+    numGuesses: 0,
+    completed: false
 }
