@@ -21,8 +21,11 @@ export interface user {
     status?: 'success';
 }
 
-export interface userSignup extends user {
-    password: string
+export interface userSignup {
+    password: string;
+    username: string;
+    email: string;
+    profilePicture?: string | File;
 }
 
 export const userPlaceholder = {

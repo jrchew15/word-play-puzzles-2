@@ -7,10 +7,20 @@ const userSlice: Slice = createSlice({
     initialState: { ...userPlaceholder },
     reducers: {
         setUser(state, action: PayloadAction<user>): void {
-            state = { ...action.payload }
+            const { id, username, profilePicture, totalWordgons, totalWordles, createdAt, email, theme, openSessions, openWordles } = action.payload;
+            state.id = id;
+            state.username = username;
+            state.profilePicture = profilePicture || '';
+            state.totalWordgons = totalWordgons;
+            state.totalWordles = totalWordles;
+            state.createdAt = createdAt;
+            state.theme = theme;
+            state.email = email;
+            state.openSessions = openSessions;
+            state.openWordles = openWordles;
         },
         removeUser(state, action: PayloadAction<null>): void {
-            state = {}
+            state.user = userPlaceholder
         }
     }
 });
@@ -112,9 +122,6 @@ export const editUserThunk = (userId: number, payload: user) => async (dispatch:
 export const signUp = (payload: userSignup) => async (dispatch: Dispatch<PayloadAction<user>>) => {
     const formData = new FormData();
 
-    if (payload.id !== undefined) {
-        formData.append('id', payload.id.toString())
-    }
     if (payload.username !== undefined) {
         formData.append('username', payload.username)
     }
@@ -135,6 +142,7 @@ export const signUp = (payload: userSignup) => async (dispatch: Dispatch<Payload
 
     if (response.ok) {
         const data = await response.json();
+        console.log('after response', data)
         dispatch(setUser(data))
         return null;
     } else if (response.status < 500) {
