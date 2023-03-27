@@ -20,7 +20,7 @@ const userSlice: Slice = createSlice({
             state.openWordles = openWordles;
         },
         removeUser(state, action: PayloadAction<null>): void {
-            state.user = userPlaceholder
+            state = userPlaceholder
         }
     }
 });
@@ -142,7 +142,6 @@ export const signUp = (payload: userSignup) => async (dispatch: Dispatch<Payload
 
     if (response.ok) {
         const data = await response.json();
-        console.log('after response', data)
         dispatch(setUser(data))
         return null;
     } else if (response.status < 500) {
