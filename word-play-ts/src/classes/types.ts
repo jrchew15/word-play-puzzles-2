@@ -10,7 +10,7 @@ export type Props = {
 export interface user {
     id: number;
     username: string;
-    profilePicture?: string;
+    profilePicture?: string | File;
     totalWordgons: number;
     totalWordles: number;
     createdAt?: string;
@@ -18,6 +18,11 @@ export interface user {
     theme?: string;
     openSessions?: wordgonSession[];
     openWordles?: wordleSession[];
+    status?: 'success';
+}
+
+export interface userSignup extends user {
+    password: string
 }
 
 export const userPlaceholder = {
@@ -89,4 +94,9 @@ export const wordleSessionPlaceholder: wordleSession = {
     guesses: '',
     numGuesses: 0,
     completed: false
+}
+
+export interface errorResponse {
+    status: 'failed';
+    errors: string[]
 }
