@@ -11,8 +11,8 @@ class WordGon(db.Model):
     num_attempts = db.Column(db.Integer)
     puzzle_day = db.Column(db.Date, default=None)
 
-    sessions = db.relationship("WordGonSession", back_populates="puzzle")
-    user = db.relationship("User", back_populates='puzzles')
+    sessions = db.relationship("WordGonSession", back_populates="wordgon")
+    user = db.relationship("User", back_populates='wordgons')
     comments = db.relationship("Comment", back_populates='puzzle')
 
     def to_dict(self, comments=False):

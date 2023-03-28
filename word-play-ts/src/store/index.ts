@@ -6,7 +6,6 @@ import userReducer from './user';
 import wordgonReducer from './wordgon';
 import { user, userPlaceholder } from '../classes/types';
 
-// const rootReducer = combineReducers({ user: userReducer, wordgon: wordgonReducer });
 const rootReducer = combineReducers({ user: userReducer, wordgon: wordgonReducer });
 
 let middlewareArr: Middleware[];

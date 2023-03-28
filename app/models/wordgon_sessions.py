@@ -15,7 +15,7 @@ class WordGonSession(db.Model):
     updated_at = db.Column(db.Date, default=datetime.now(), onupdate=datetime.now())
 
     user = db.relationship("User", back_populates="sessions")
-    puzzle = db.relationship("WordGon", back_populates="sessions")
+    wordgon = db.relationship("WordGon", back_populates="sessions")
 
     def to_dict(self):
         return {

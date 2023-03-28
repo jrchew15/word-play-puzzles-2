@@ -2,7 +2,6 @@ import React, { useContext, useRef, useState, useEffect, MouseEventHandler, Prop
 import ReactDOM from 'react-dom';
 import { Props } from '../classes/types';
 import './Modal.css';
-import { ReactNode } from 'react';
 
 const ModalContext = React.createContext(null);
 

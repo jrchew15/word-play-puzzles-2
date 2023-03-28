@@ -15,8 +15,8 @@ class User(db.Model, UserMixin):
     theme = db.Column(db.Enum('light','dark', name='themes'), default='light')
     created_at = db.Column(db.Date, default=date.today())
 
-    sessions = db.relationship("WordGonSession", back_populates="user")
-    puzzles = db.relationship("WordGon", back_populates='user')
+    wordgon_sessions = db.relationship("WordGonSession", back_populates="user")
+    wordgons = db.relationship("WordGon", back_populates='user')
     comments = db.relationship("Comment", back_populates='user')
     wordle_sessions = db.relationship("WordleSession", back_populates="user")
 

@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
 import { Dispatch } from "react";
-import { errorResponse, wordgonPlaceholder, wordgonSession } from "../classes/types";
+import { errorResponse, wordgonSession } from "../classes/types";
 
 const wordgonSlice: Slice = createSlice({
     name: 'wordgon',
-    initialState: { ...wordgonPlaceholder },
+    initialState: {},
     reducers: {
         setWordgonSession(state, action: PayloadAction<wordgonSession>): void {
             state.id = action.payload;
@@ -50,7 +50,7 @@ export const thunkUpdateWordgonSession = (payload: { puzzleId: number, sessionId
         body: JSON.stringify(parsedPayload)
     });
     if (res.ok) {
-        const data = await res.json();
+        const data = await res.json() as wordgonSession;
         dispatch(setWordgonSession(data))
         return data
     }
@@ -59,7 +59,7 @@ export const thunkUpdateWordgonSession = (payload: { puzzleId: number, sessionId
 }
 
 export const thunkLoadWordgonSessions = () => async (dispatch: Dispatch<PayloadAction<{ [id: number]: wordgonSession }>>) => {
-    const res = await fetch(`/api/users/current/sessions`);
+    const res = await fetch(`/api/users/current/wordgon_sessions`);
 
     if (res.ok) {
         const data = await res.json()

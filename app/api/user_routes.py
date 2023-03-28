@@ -107,7 +107,12 @@ def edit_user(id):
     errors.extend(validation_errors_to_error_messages(form.errors))
     return {'errors': errors}, 401
 
-@user_routes.route('/current/sessions')
+@user_routes.route('/current/wordgon_sessions')
 @login_required
-def get_user_sessions():
-    return {session.id: session.to_dict() for session in current_user.sessions}
+def get_user_wordgon_sessions():
+    return {session.id: session.to_dict() for session in current_user.wordgon_sessions}
+
+@user_routes.route('/current/wordle_sessions')
+@login_required
+def get_user_wordle_sessions():
+    return {session.id: session.to_dict() for session in current_user.wordle_sessions}
