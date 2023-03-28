@@ -1,11 +1,11 @@
-import React, { FormEvent, FormEventHandler, SetStateAction, useState, Dispatch, MouseEventHandler, ChangeEventHandler, ChangeEvent } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { FormEvent, FormEventHandler, useState, MouseEventHandler, ChangeEventHandler, ChangeEvent } from 'react';
+import { useDispatch } from 'react-redux';
 import { Redirect, NavLink } from 'react-router-dom';
-import { user } from '../classes/types';
-import { login } from '../store/user';
-import { appUseSelector, totalState } from "../store";
+import { user } from '../../classes/types';
+import { login } from '../../store/user';
+import { appUseSelector, totalState } from "../../store";
 
-// import './auth.css'
+import './auth.css'
 
 const LoginForm = () => {
 

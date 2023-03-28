@@ -2,9 +2,9 @@ import { EventType } from '@testing-library/react';
 import React, { ChangeEvent, ChangeEventHandler, FormEvent, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Redirect, NavLink } from 'react-router-dom';
-import { signUp } from '../store/user';
-import { appUseSelector, totalState } from "../store";
-import { user } from '../classes/types';
+import { signUp } from '../../store/user';
+import { appUseSelector, totalState } from "../../store";
+import { user } from '../../classes/types';
 import { InputType } from 'zlib';
 // import ImageDragAndDrop from './ImageDragAndDrop';
 

@@ -10,14 +10,13 @@ import { appUseSelector, totalState } from "../store";
 export default function SplashPage() {
 
     const currentUser: user = appUseSelector((state: totalState) => state.user)
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [puzzle, setPuzzle]: [wordgon, Function] = useState(wordgonPlaceholder);
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const [puzzle, setPuzzle] = useState<wordgon>(wordgonPlaceholder);
     const history = useHistory();
 
 
     useEffect(() => {
         const today_date = new Date();
-        console.log('***', currentUser);
         (async () => {
             const res = await fetch(`/api/wordgons/by_date/${today_date.getFullYear()}-${today_date.getUTCMonth() + 1}-${today_date.getDate()}`);
             const data = await res.json()
@@ -49,7 +48,7 @@ export default function SplashPage() {
                 </div>
             </div>
             <div className='splash-card'>
-                <div className='auth-buttons' style={{ fontSize: '1.6em', borderRadius: '15px 15px 0 0' }} onClick={() => history.push('/sign-up')}>Sign Up</div>
+                <div className='auth-buttons' style={{ fontSize: '1.6em', borderRadius: '15px 15px 0 0' }} onClick={() => history.push('/signup')}>Sign Up</div>
                 <div className="splash-card-sep" />
                 <div className='auth-buttons' style={{ fontSize: '1.6em', borderRadius: '0 0 15px 15px' }} onClick={() => history.push('/login')}>Log In</div>
             </div>

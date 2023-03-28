@@ -1,19 +1,19 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import SplashPage from './components/SplashPage';
-import SignUpForm from './components/SignupTest';
-import LoginForm from './components/LoginForm';
+import SignUpForm from './components/auth/SignupTest';
+import LoginPage from './components/auth/LoginPage';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <Switch>
-          <Route exact path={'/sign-up'}>
+          <Route exact path={'/signup'}>
             <SignUpForm />
           </Route>
           <Route exact path={'/login'}>
-            <LoginForm />
+            <LoginPage />
           </Route>
           <Route exact path={'/'}>
             <SplashPage />
