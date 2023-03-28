@@ -1,25 +1,23 @@
-import { EventType } from '@testing-library/react';
 import React, { ChangeEvent, ChangeEventHandler, FormEvent, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Redirect, NavLink } from 'react-router-dom';
 import { signUp } from '../../store/user';
 import { appUseSelector, totalState } from "../../store";
 import { user } from '../../classes/types';
-import { InputType } from 'zlib';
-// import ImageDragAndDrop from './ImageDragAndDrop';
+import ImageDragAndDrop from './ImageDragAndDrop';
 
-// import './dragDrop.css'
+import './dragDrop.css'
 
 const SignUpForm = () => {
     const theme = 'light';
 
-    const [errors, setErrors] = useState([]);
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [repeatPassword, setRepeatPassword] = useState('');
+    const [errors, setErrors] = useState<string[]>([]);
+    const [username, setUsername] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [repeatPassword, setRepeatPassword] = useState<string>('');
 
-    const [imageFile, setImageFile] = useState(null);
+    const [imageFile, setImageFile] = useState<File | null>(null);
 
     const currentUser: user = appUseSelector((state: totalState) => state.user)
     const dispatch = useDispatch();
@@ -32,7 +30,7 @@ const SignUpForm = () => {
                 setErrors(data)
             }
         } else {
-            // setErrors(['Passwords do not match'])
+            setErrors(['Passwords do not match'])
         }
     };
 
@@ -46,21 +44,18 @@ const SignUpForm = () => {
         if (e.currentTarget) {
             setEmail(e.currentTarget.value)
         }
-        // setEmail(e.target.value);
     };
 
     const updatePassword: ChangeEventHandler<HTMLInputElement> = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.currentTarget) {
             setPassword(e.currentTarget.value)
         }
-        // setPassword(e.target.value);
     };
 
     const updateRepeatPassword: ChangeEventHandler<HTMLInputElement> = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.currentTarget) {
             setRepeatPassword(e.currentTarget.value)
         }
-        // setRepeatPassword(e.target.value);
     };
 
     if (currentUser.username) {
@@ -120,7 +115,7 @@ const SignUpForm = () => {
                 <div className={'sep ' + theme}><span>or</span></div>
                 <NavLink to='/login'>I already have an account</NavLink>
             </form>
-            {/* <ImageDragAndDrop imageFile={imageFile} setImageFile={setImageFile} /> */}
+            <ImageDragAndDrop imageFile={imageFile} setImageFile={setImageFile} />
         </div>
     );
 };

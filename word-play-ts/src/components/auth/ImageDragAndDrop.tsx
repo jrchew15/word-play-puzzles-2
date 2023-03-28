@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, SetStateAction, Dispatch, DragEventHandler, ChangeEventHandler } from "react";
 import './dragDrop.css';
 
-export default function ImageDragAndDrop(props: { imageFile: File, setImageFile: Dispatch<SetStateAction<File>> }) {
+export default function ImageDragAndDrop(props: { imageFile: null | File, setImageFile: Dispatch<SetStateAction<null | File>> }) {
     const { imageFile, setImageFile } = props;
     const [imageUrl, setImageUrl] = useState<string>('');
     const [dragging, setDragging] = useState<boolean>(false);    // used to give user feedback when they are dragging a file correctly

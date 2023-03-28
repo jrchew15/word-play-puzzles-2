@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
-import { useSelector, TypedUseSelectorHook } from "react-redux";
 import { parseDate } from "./Carousels/PuzzlesOfTheDay";
-import { user, wordgon, userPlaceholder, wordgonPlaceholder } from "../classes/types";
+import { user, wordgon, wordgonPlaceholder } from "../classes/types";
 import { appUseSelector, totalState } from "../store";
 // import { ListableBoxAndLetters, DetailsByStatus } from "./WordGon/WordGonBox";
 
@@ -32,8 +31,7 @@ export default function SplashPage() {
         return null
     }
 
-    // return currentUser.id ? <Redirect to='/' /> : <div id='splash'>
-    return <div id='splash'>
+    return currentUser.id ? <Redirect to='/' /> : <div id='splash'>
         <img id='splash-bkg' src='/static/images/icon_square.svg' alt='word-play' className="unselectable" />
         <h1 style={{ fontSize: '3em' }}>Welcome to Word Play</h1>
         <div id='splash-card-container'>
