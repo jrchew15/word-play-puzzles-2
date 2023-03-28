@@ -1,6 +1,3 @@
-import { wordgonSession } from "./wordgonTypes";
-import { wordleSession } from "./wordleTypes";
-
 export interface user {
     id: number;
     username: string;
@@ -10,8 +7,13 @@ export interface user {
     createdAt?: string;
     email?: string;
     theme?: string;
-    openSessions?: wordgonSession[];
-    openWordles?: wordleSession[];
+    openSessions?: number[];
+    openWordles?: number[];
+}
+
+export interface loadedUser extends user {
+    openSessions: number[];
+    openWordles: number[];
 }
 
 export interface userSignup {

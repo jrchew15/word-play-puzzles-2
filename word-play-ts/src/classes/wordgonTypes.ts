@@ -37,3 +37,7 @@ export const wordgonSessionPlaceholder: wordgonSession = {
     numGuesses: 0,
     completed: false
 }
+
+export interface normalizedWordgonSessions {
+    [id: number]: wordgonSession;
+}

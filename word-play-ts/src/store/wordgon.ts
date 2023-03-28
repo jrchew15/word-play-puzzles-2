@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, Slice, ThunkAction } from "@reduxjs/toolkit";
 import { Dispatch } from "react";
 import { errorResponse } from "../classes";
-import { wordgonSession } from "../classes/wordgonTypes";
+import { wordgonSession, normalizedWordgonSessions } from "../classes/wordgonTypes";
 import { totalState } from ".";
 
 const wordgonSlice: Slice = createSlice({
@@ -11,10 +11,8 @@ const wordgonSlice: Slice = createSlice({
         setWordgonSession(state, action: PayloadAction<wordgonSession>): void {
             state.id = action.payload;
         },
-        loadWordgonSessions(state, action: PayloadAction<{ [id: number]: wordgonSession }>): void {
-            for (let key in action.payload) {
-                state[key] = action.payload[key]
-            }
+        loadWordgonSessions(state, action: PayloadAction<normalizedWordgonSessions>): normalizedWordgonSessions {
+            return action.payload
         },
         deleteWordgonSession(state, action: PayloadAction<number>): void {
             delete state[action.payload]
@@ -64,8 +62,8 @@ export const thunkUpdateWordgonSession = (payload: { puzzleId: number, sessionId
     }
 }
 
-export const thunkLoadWordgonSessions = (): ThunkAction<Promise<null | errorResponse>, totalState, unknown, PayloadAction<{ [id: number]: wordgonSession }>> => {
-    return async (dispatch: Dispatch<PayloadAction<{ [id: number]: wordgonSession }>>, getState: () => totalState) => {
+export const thunkLoadWordgonSessions = (): ThunkAction<Promise<null | errorResponse>, totalState, unknown, PayloadAction<normalizedWordgonSessions>> => {
+    return async (dispatch: Dispatch<PayloadAction<normalizedWordgonSessions>>, getState: () => totalState) => {
         const res = await fetch(`/api/users/current/wordgon_sessions`);
 
         if (res.ok) {

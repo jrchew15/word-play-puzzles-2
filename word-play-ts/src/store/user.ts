@@ -2,26 +2,18 @@ import { createSlice, Slice, PayloadAction } from "@reduxjs/toolkit";
 import { Dispatch } from "react";
 import { userPlaceholder, user, userSignup } from "../classes/userTypes";
 import { errorResponse } from '../classes/index';
+import { loadWordgonSessions } from "./wordgon";
+import { loadWordleSessions } from "./wordle";
 
 const userSlice: Slice = createSlice({
     name: 'user',
     initialState: { ...userPlaceholder },
     reducers: {
-        setUser(state, action: PayloadAction<user>): void {
-            const { id, username, profilePicture, totalWordgons, totalWordles, createdAt, email, theme, openSessions, openWordles } = action.payload;
-            state.id = id;
-            state.username = username;
-            state.profilePicture = profilePicture || '';
-            state.totalWordgons = totalWordgons;
-            state.totalWordles = totalWordles;
-            state.createdAt = createdAt;
-            state.theme = theme;
-            state.email = email;
-            state.openSessions = openSessions;
-            state.openWordles = openWordles;
+        setUser(state, action: PayloadAction<user>): user {
+            return action.payload
         },
-        removeUser(state, action: PayloadAction<null>): void {
-            state = userPlaceholder
+        removeUser(state, action: PayloadAction<null>): user {
+            return userPlaceholder
         }
     }
 });
@@ -81,6 +73,8 @@ export const logout = () => async (dispatch: Dispatch<PayloadAction<null>>): Pro
 
     if (response.ok) {
         dispatch(removeUser(null));
+        dispatch(loadWordgonSessions({}));
+        dispatch(loadWordleSessions({}));
     }
 };
 

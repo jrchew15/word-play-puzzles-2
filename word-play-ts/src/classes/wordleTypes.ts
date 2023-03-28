@@ -25,3 +25,7 @@ export const wordleSessionPlaceholder: wordleSession = {
     numGuesses: 0,
     completed: false
 }
+
+export interface normalizedWordleSessions {
+    [id: number]: wordleSession
+}

@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import { Dispatch, MouseEventHandler, SetStateAction, useState } from 'react';
 import { appUseSelector, totalState } from '../store';
-// import UserDropdown from './UserDropdown';
+import UserDropdown from './UserDropdown';
 import { Modal } from '../context/Modal';
 // import User from './User';
 
@@ -37,7 +37,7 @@ const NavBar = (props: { showUserDropdown: boolean, setShowUserDropdown: Dispatc
           <div id='dropdown-selector' onClick={userDropdownToggle} >
             {(props.showUserDropdown) ? <i className="fas fa-times" /> : <i className="fas fa-bars" />}
           </div>}
-        {/* {(props.showUserDropdown) && <UserDropdown showDropdown={props.showUserDropdown} setShowDropdown={props.setShowUserDropdown} setShowModal={setShowModal} closeDropdowns={closeDropdowns} setTriggerReload={props.setTriggerReload} />} */}
+        {(props.showUserDropdown) && <UserDropdown setShowModal={setShowModal} closeDropdowns={closeDropdowns} setTriggerReload={props.setTriggerReload} />}
         <img src={imageSrc} alt='logo' className='logo'
           onMouseEnter={() => setImageSrc('/static/images/icon_2-cropped.svg')}
           onMouseLeave={() => setImageSrc('/static/images/icon_1-cropped.svg')}
