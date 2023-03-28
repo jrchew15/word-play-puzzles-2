@@ -1,15 +1,17 @@
 from datetime import datetime
 from .user import User
-from .db import db
+from .db import db, add_prefix_for_prod, SCHEMA, environment
 
 class Comment(db.Model):
     __tablename__ = 'comments'
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    puzzle_id = db.Column(db.Integer, db.ForeignKey('word_gons.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    puzzle_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('word_gons.id')), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     body = db.Column(db.String(255), nullable=False)
-    reply_to = db.Column(db.Integer, db.ForeignKey('comments.id'))
+    reply_to = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('comments.id')))
     created_at = db.Column(db.Date, default=datetime.now())
     updated_at = db.Column(db.Date, default=datetime.now(), onupdate=datetime.now())
 

@@ -1,13 +1,15 @@
 from datetime import datetime
-from .db import db
+from .db import db, SCHEMA, environment, add_prefix_for_prod
 
 
 class WordleSession(db.Model):
     __tablename__ = 'wordle_sessions'
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    puzzle_id = db.Column(db.Integer, db.ForeignKey('wordles.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    puzzle_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('wordles.id')), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     guesses = db.Column(db.String(35), default='')
     num_guesses = db.Column(db.Integer, default=0)
     completed = db.Column(db.Boolean, default=False)
