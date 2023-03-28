@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState, useEffect } from 'react';
+import React, { useContext, useRef, useState, useEffect, MouseEventHandler, PropsWithChildren } from 'react';
 import ReactDOM from 'react-dom';
 import { Props } from '../classes/types';
 import './Modal.css';
@@ -6,7 +6,7 @@ import { ReactNode } from 'react';
 
 const ModalContext = React.createContext(null);
 
-export function ModalProvider(props: { children: ReactNode }) {
+export function ModalProvider(props: PropsWithChildren) {
 
     const modalRef = useRef(null);
     const [value, setValue] = useState(null);

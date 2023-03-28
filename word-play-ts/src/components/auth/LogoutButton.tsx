@@ -1,6 +1,7 @@
 import React, { SetStateAction, useEffect, Dispatch, MouseEventHandler } from 'react';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../store/user';
+import { loadWordgonSessions } from '../../store/wordgon';
 
 const LogoutButton = (props: { loggingOut: boolean, setLoggingOut: Dispatch<SetStateAction<boolean>> }) => {
     const { loggingOut, setLoggingOut } = props;
@@ -14,7 +15,7 @@ const LogoutButton = (props: { loggingOut: boolean, setLoggingOut: Dispatch<SetS
         if (loggingOut) {
             (async () => {
                 await logout()(dispatch);
-                // await dispatch(actionLoadWordgonSessions([])) TODO
+                await dispatch(loadWordgonSessions({}))
             })()
         }
     }, [loggingOut, dispatch])

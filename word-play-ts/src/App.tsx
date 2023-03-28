@@ -1,13 +1,62 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import SplashPage from './components/SplashPage';
-import SignUpPage from './components/auth/SignupPage';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import LoginPage from './components/auth/LoginPage';
+import SignUpPage from './components/auth/SignupPage';
+// import UserSettings from './components/UserSettings';
+import NavBar from './components/Navbar';
+// import ProtectedRoute from './components/auth/ProtectedRoute';
+import SplashPage from './components/SplashPage';
+// import Puzzle from './components/WordGon/Puzzle';
+// import Homepage from './Homepage';
+// import User from './components/User';
+// import BadRoute from './components/BadRoute';
+import { authenticate } from './store/user';
+import { thunkLoadWordgonSessions } from './store/wordgon';
+import { appUseSelector, totalState } from "./store";
+import { user } from './classes/types';
+// import UnregisteredPuzzle from './components/WordGon/UnregisteredPuzzle';
+// import SignUpPrompt from './components/auth/SignUpPrompt';
+// import WordleTodayRedirect from './components/Carousels/WordleTodayRedirect';
+// import WordlePuzzle from './components/Wordle/WordlePuzzle';
+// import WordleWonModalContent from './components/Wordle/WordleWonModalContent';
+
+import './index.css'
 
 function App() {
+  const [loaded, setLoaded] = useState<boolean>(false);
+  const dispatch = useDispatch();
+
+  const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false)
+  const [showDeveloperDropdown, setShowDeveloperDropdown] = useState<boolean>(false)
+  const [triggerReload, setTriggerReload] = useState<boolean>(false)
+
+  const currentUser: user = appUseSelector((state: totalState) => state.user)
+
+  useEffect(() => {
+    (async () => {
+      await authenticate()(dispatch);
+      setLoaded(true);
+    })();
+    if (triggerReload) setTriggerReload(false)
+  }, [dispatch, triggerReload]);
+
+  useEffect(() => {
+    (async () => {
+      if (currentUser && currentUser.id) {
+        thunkLoadWordgonSessions()(dispatch)
+      }
+    })()
+  }, [currentUser, dispatch])
+
+  if (!loaded) {
+    return null;
+  }
   return (
     <BrowserRouter>
-      <div className="App">
+      <NavBar showUserDropdown={showUserDropdown} setShowUserDropdown={setShowUserDropdown} showDeveloperDropdown={showDeveloperDropdown} setShowDeveloperDropdown={setShowDeveloperDropdown} setTriggerReload={setTriggerReload} />
+      <div id='nav-spacer' />
+      {!triggerReload && <div id='omni-container' onClick={() => { setShowUserDropdown(false); setShowDeveloperDropdown(false) }}>
         <Switch>
           <Route exact path={'/signup'}>
             <SignUpPage />
@@ -19,7 +68,7 @@ function App() {
             <SplashPage />
           </Route>
         </Switch>
-      </div>
+      </div>}
     </BrowserRouter>
   );
 }
