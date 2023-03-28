@@ -48,7 +48,7 @@ const NavBar = (props: { showUserDropdown: boolean, setShowUserDropdown: Dispatc
       <div id='right-nav' onClick={developerDropdownToggle}>
         <span >About the Developer</span>
         {(props.showDeveloperDropdown) && <ul id='developer-dropdown' onClick={() => props.setShowDeveloperDropdown(false)}>
-          <a href='https://github.com/jrchew15/word-play-puzzles/' target='_blank' rel='noreferrer'>
+          <a href='https://github.com/jrchew15/word-play-puzzles-2/' target='_blank' rel='noreferrer'>
             Project Github
             <img src='/static/images/icon_square.svg' alt='project_github' />
           </a>
