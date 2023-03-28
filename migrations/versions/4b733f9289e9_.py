@@ -1,13 +1,15 @@
 """empty message
 
 Revision ID: 4b733f9289e9
-Revises: 
+Revises:
 Create Date: 2023-03-28 13:19:26.041859
 
 """
 from alembic import op
 import sqlalchemy as sa
-
+import os
+environment = os.getenv('FLASK_ENV')
+SCHEMA = os.environ.get('SCHEMA')
 
 # revision identifiers, used by Alembic.
 revision = '4b733f9289e9'
@@ -30,6 +32,8 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
+    if environment == 'production':
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
     op.create_table('wordles',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('word', sa.String(length=5), nullable=False),
@@ -37,12 +41,16 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('word')
     )
+    if environment == 'production':
+        op.execute(f"ALTER TABLE wordles SET SCHEMA {SCHEMA};")
     op.create_table('words',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('word', sa.String(length=100), nullable=True),
     sa.Column('length', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
+    if environment == 'production':
+        op.execute(f"ALTER TABLE words SET SCHEMA {SCHEMA};")
     op.create_table('word_gons',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('letters', sa.String(length=25), nullable=False),
@@ -54,6 +62,8 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('letters')
     )
+    if environment == 'production':
+        op.execute(f"ALTER TABLE word_gons SET SCHEMA {SCHEMA};")
     op.create_table('wordle_sessions',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('puzzle_id', sa.Integer(), nullable=False),
@@ -67,6 +77,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    if environment == 'production':
+        op.execute(f"ALTER TABLE wordle_sessions SET SCHEMA {SCHEMA};")
     op.create_table('comments',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('puzzle_id', sa.Integer(), nullable=False),
@@ -80,6 +92,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    if environment == 'production':
+        op.execute(f"ALTER TABLE comments SET SCHEMA {SCHEMA};")
     op.create_table('word_gons_sessions',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('puzzle_id', sa.Integer(), nullable=False),
@@ -93,6 +107,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    if environment == 'production':
+        op.execute(f"ALTER TABLE word_gons_sessions SET SCHEMA {SCHEMA};")
     # ### end Alembic commands ###
 
 
