@@ -1,6 +1,6 @@
 import { useHistory, Redirect } from "react-router-dom"
 import { appUseSelector, totalState } from "../../store";
-import { user } from "../../classes/types";
+import { user } from "../../classes/userTypes";
 
 export default function SignUpPrompt() {
     const history = useHistory();

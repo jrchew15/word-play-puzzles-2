@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Redirect, NavLink } from 'react-router-dom';
 import { signUp } from '../../store/user';
 import { appUseSelector, totalState } from "../../store";
-import { user } from '../../classes/types';
+import { user } from '../../classes/userTypes';
 import ImageDragAndDrop from './ImageDragAndDrop';
 
 import './dragDrop.css'

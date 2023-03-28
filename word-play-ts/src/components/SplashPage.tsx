@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { parseDate } from "./Carousels/PuzzlesOfTheDay";
-import { user, wordgon, wordgonPlaceholder } from "../classes/types";
+import { wordgon, wordgonPlaceholder } from "../classes/wordgonTypes";
+import { user } from "../classes/userTypes";
 import { appUseSelector, totalState } from "../store";
 // import { ListableBoxAndLetters, DetailsByStatus } from "./WordGon/WordGonBox";
 
@@ -18,8 +19,8 @@ export default function SplashPage() {
         const today_date = new Date();
         (async () => {
             const res = await fetch(`/api/wordgons/by_date/${today_date.getFullYear()}-${today_date.getUTCMonth() + 1}-${today_date.getDate()}`);
-            const data = await res.json()
             if (res.ok) {
+                const data = await res.json()
                 setPuzzle(data)
             }
 

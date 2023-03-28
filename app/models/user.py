@@ -32,7 +32,7 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     def to_dict(self, comment=False, current=False, total=False):
-        wordgon_sessions = self.sessions
+        wordgon_sessions = self.wordgon_sessions
         wordle_sessions = self.wordle_sessions
         response = {
             'id': self.id,

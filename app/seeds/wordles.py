@@ -5,31 +5,31 @@ from datetime import date, timedelta
 def seed_wordles():
     wordle1 = Wordle(
         word='exist',
-        puzzle_day=date(2022,10,17)
+        puzzle_day=date(2023,3,25)
     )
     wordle2 = Wordle(
         word='known',
-        puzzle_day=date(2022,10,18)
+        puzzle_day=date(2023,3,26)
     )
     wordle3 = Wordle(
         word='human',
-        puzzle_day=date(2022,10,19)
+        puzzle_day=date(2023,3,27)
     )
     wordle4 = Wordle(
         word='major',
-        puzzle_day=date(2022,10,20)
+        puzzle_day=date(2023,3,28)
     )
     wordle5 = Wordle(
         word='hurry',
-        puzzle_day=date(2022,10,21)
+        puzzle_day=date(2023,3,29)
     )
     wordle6 = Wordle(
         word='ghost',
-        puzzle_day=date(2022,10,22)
+        puzzle_day=date(2023,3,30)
     )
     wordle7 = Wordle(
         word='build',
-        puzzle_day=date(2022,10,23)
+        puzzle_day=date(2023,3,31)
     )
 
     db.session.add(wordle1)
@@ -47,11 +47,15 @@ def seed_wordles():
 
     idx = 0
     for word in lst:
-        new_date = date(2022,10,24) + timedelta(days=idx)
+        new_date = date(2023,4,1) + timedelta(days=idx)
 
         wordle = Wordle(word=word,puzzle_day=new_date)
         db.session.add(wordle)
         idx += 1
+    db.session.commit()
+
+    testSession = WordleSession(puzzle_id = 1, user_id = 2, guesses = 'orate', num_guesses = 1)
+    db.session.add(testSession)
     db.session.commit()
 
 def undo_wordles():

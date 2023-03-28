@@ -4,9 +4,10 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import userReducer from './user';
 import wordgonReducer from './wordgon';
-import { user, userPlaceholder } from '../classes/types';
+import wordleReducer from './wordle';
+import { user } from '../classes/userTypes';
 
-const rootReducer = combineReducers({ user: userReducer, wordgon: wordgonReducer });
+const rootReducer = combineReducers({ user: userReducer, wordgon: wordgonReducer, wordle: wordleReducer });
 
 let middlewareArr: Middleware[];
 
@@ -25,7 +26,8 @@ export default function initializeStore() {
 
 export interface totalState {
     user: user,
-    wordgon: {}
+    wordgon: {},
+    wordle: {}
 }
 
 export const appUseSelector: TypedUseSelectorHook<totalState> = useSelector;

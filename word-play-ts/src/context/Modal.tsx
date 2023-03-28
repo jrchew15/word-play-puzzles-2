@@ -1,6 +1,5 @@
 import React, { useContext, useRef, useState, useEffect, MouseEventHandler, PropsWithChildren } from 'react';
 import ReactDOM from 'react-dom';
-import { Props } from '../classes/types';
 import './Modal.css';
 
 const ModalContext = React.createContext(null);
@@ -24,7 +23,7 @@ export function ModalProvider(props: PropsWithChildren) {
     )
 }
 
-export function Modal(props: Props) {
+export function Modal(props: PropsWithChildren & { onClose: MouseEventHandler }) {
     const modalNode = useContext(ModalContext);
     if (!modalNode) return null;
 

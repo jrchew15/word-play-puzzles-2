@@ -144,7 +144,7 @@ def add_comment(puzzleId):
 def wordgon_leaders():
     # top = WordGonSession.query.group_by(WordGonSession.user_id).all()
     stmt = db.select(WordGonSession.user_id, db.func.count(), User.username, User.profile_picture)\
-        .join(User.sessions)\
+        .join(User.wordgon_sessions)\
         .group_by(WordGonSession.user_id)\
         .order_by(db.desc(db.func.count()))\
         .where(WordGonSession.completed == True)\

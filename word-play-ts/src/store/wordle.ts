@@ -1,7 +1,8 @@
 import { AnyAction, createSlice, PayloadAction, Slice, ThunkAction } from "@reduxjs/toolkit";
 import { Dispatch } from "react";
 import { totalState } from ".";
-import { errorResponse, wordleSession } from "../classes/types";
+import { errorResponse } from "../classes";
+import { wordleSession } from "../classes/wordleTypes";
 
 const wordleSlice: Slice = createSlice({
     name: 'wordle',
@@ -55,7 +56,7 @@ export const thunkUpdateWordleSession = (payload: { puzzleId: number, sessionId:
 
 export const thunkLoadWordleSessions = (): ThunkAction<Promise<null | errorResponse>, totalState, unknown, PayloadAction<{ [id: number]: wordleSession }>> => {
     return async (dispatch: Dispatch<PayloadAction<{ [id: number]: wordleSession }>>) => {
-        const res = await fetch(`/api/user/current/wordle_session`);
+        const res = await fetch(`/api/users/current/wordle_sessions`);
         if (res.ok) {
             const data = await res.json() as { [id: number]: wordleSession };
             dispatch(loadWordleSessions(data));

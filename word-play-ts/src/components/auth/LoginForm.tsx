@@ -1,7 +1,7 @@
 import React, { FormEvent, FormEventHandler, useState, MouseEventHandler, ChangeEventHandler, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { Redirect, NavLink } from 'react-router-dom';
-import { user } from '../../classes/types';
+import { user } from '../../classes/userTypes';
 import { login } from '../../store/user';
 import { appUseSelector, totalState } from "../../store";
 
@@ -20,7 +20,7 @@ const LoginForm = () => {
     const onLogin: FormEventHandler = async (e: FormEvent) => {
         e.preventDefault();
         const data = await login(credential, password)(dispatch);
-        if (data) {
+        if (Array.isArray(data)) {
             setErrors(data);
         }
     };
@@ -28,7 +28,7 @@ const LoginForm = () => {
     const onDemoLogin: MouseEventHandler<HTMLButtonElement> = async (e) => {
         e.preventDefault();
         const data = await login('Demo', 'password')(dispatch);
-        if (data) {
+        if (Array.isArray(data)) {
             setErrors(data);
         }
     };

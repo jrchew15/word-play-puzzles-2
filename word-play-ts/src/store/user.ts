@@ -1,6 +1,7 @@
-import { createSlice, Slice, createSelector, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, Slice, PayloadAction } from "@reduxjs/toolkit";
 import { Dispatch } from "react";
-import { userPlaceholder, user, errorResponse, userSignup } from "../classes/types";
+import { userPlaceholder, user, userSignup } from "../classes/userTypes";
+import { errorResponse } from '../classes/index';
 
 const userSlice: Slice = createSlice({
     name: 'user',
@@ -35,13 +36,14 @@ export const authenticate = () => async (dispatch: Dispatch<PayloadAction<user>>
         }
     });
     if (response.ok) {
-        const data: user | errorResponse = await response.json();
-        if (data.status === 'failed') {
-            return;
-        }
+        const data = await response.json() as user;
 
         dispatch(setUser(data));
+    } else {
+        const errData = await response.json() as errorResponse;
+        return errData
     }
+
 }
 
 export const login = (credential: string, password: string) => async (dispatch: Dispatch<PayloadAction<user>>) => {
@@ -62,10 +64,8 @@ export const login = (credential: string, password: string) => async (dispatch: 
         dispatch(setUser(data))
         return null;
     } else if (response.status < 500) {
-        const data: user | errorResponse = await response.json();
-        if (data.status === 'failed') {
-            return data.errors;
-        }
+        const data = await response.json() as errorResponse;
+        return data;
     } else {
         return ['An error occurred. Please try again.']
     }

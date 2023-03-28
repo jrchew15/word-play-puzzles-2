@@ -13,8 +13,9 @@ import SplashPage from './components/SplashPage';
 // import BadRoute from './components/BadRoute';
 import { authenticate } from './store/user';
 import { thunkLoadWordgonSessions } from './store/wordgon';
+import { thunkLoadWordleSessions } from './store/wordle';
 import { appUseSelector, totalState } from "./store";
-import { user } from './classes/types';
+import { user } from './classes/userTypes';
 // import UnregisteredPuzzle from './components/WordGon/UnregisteredPuzzle';
 // import SignUpPrompt from './components/auth/SignUpPrompt';
 // import WordleTodayRedirect from './components/Carousels/WordleTodayRedirect';
@@ -35,7 +36,7 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      await authenticate()(dispatch);
+      const data = await authenticate()(dispatch);
       setLoaded(true);
     })();
     if (triggerReload) setTriggerReload(false)
@@ -44,7 +45,8 @@ function App() {
   useEffect(() => {
     (async () => {
       if (currentUser && currentUser.id) {
-        thunkLoadWordgonSessions()(dispatch)
+        thunkLoadWordgonSessions()(dispatch, () => appUseSelector(state => state), null)
+        thunkLoadWordleSessions()(dispatch, () => appUseSelector(state => state), null)
       }
     })()
   }, [currentUser, dispatch])

@@ -1,6 +1,6 @@
 import React from 'react';
 import { appUseSelector, totalState } from "../../store";
-import { user } from '../../classes/types';
+import { user } from '../../classes/userTypes';
 import { Route, Redirect, RouteProps } from 'react-router-dom';
 
 // prevents access to users not signed in
