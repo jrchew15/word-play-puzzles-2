@@ -1,6 +1,6 @@
 import { createSlice, Slice, PayloadAction } from "@reduxjs/toolkit";
 import { Dispatch } from "react";
-import { userPlaceholder, user, userSignup } from "../classes/userTypes";
+import { userPlaceholder, user, userSignup, userEdit } from "../classes/userTypes";
 import { errorResponse } from '../classes/index';
 import { loadWordgonSessions } from "./wordgon";
 import { loadWordleSessions } from "./wordle";
@@ -78,7 +78,7 @@ export const logout = () => async (dispatch: Dispatch<PayloadAction<null>>): Pro
     }
 };
 
-export const editUserThunk = (userId: number, payload: user) => async (dispatch: Dispatch<PayloadAction<user>>) => {
+export const editUserThunk = (userId: number, payload: userEdit) => async (dispatch: Dispatch<PayloadAction<user>>) => {
     const formData = new FormData();
 
     if (payload.id !== undefined) {
@@ -87,8 +87,8 @@ export const editUserThunk = (userId: number, payload: user) => async (dispatch:
     if (payload.username !== undefined) {
         formData.append('username', payload.username)
     }
-    if (payload.profilePicture !== undefined) {
-        formData.append('profilePicture', payload.profilePicture)
+    if (payload.image) {
+        formData.append('profilePicture', payload.image)
     }
     if (payload.email !== undefined) {
         formData.append('email', payload.email)

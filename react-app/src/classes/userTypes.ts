@@ -1,7 +1,7 @@
 export interface user {
     id: number;
     username: string;
-    profilePicture?: string | File;
+    profilePicture?: string;
     totalWordgons: number;
     totalWordles: number;
     createdAt?: string;
@@ -20,7 +20,13 @@ export interface userSignup {
     password: string;
     username: string;
     email: string;
-    profilePicture?: string | File;
+    profilePicture?: string | File | Blob;
+}
+
+export interface userEdit {
+    username: string;
+    email: string;
+    image?: string | File;
 }
 
 export const userPlaceholder = {
