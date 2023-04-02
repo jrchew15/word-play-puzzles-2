@@ -22,6 +22,10 @@ export default function ImageDragAndDrop(props: { imageFile: null | File, setIma
     }
     const dropHandler: DragEventHandler = (e) => {
         e.preventDefault()
+        e.stopPropagation()
+        if (e.target) {
+            console.log(e.target, e.currentTarget, e)
+        }
         if (e.dataTransfer.items && e.dataTransfer.items[0]) {
             let file = e.dataTransfer.items[0].getAsFile() as File
             if (file.size > 1e6) {
@@ -62,7 +66,7 @@ export default function ImageDragAndDrop(props: { imageFile: null | File, setIma
         className={dragging ? 'dragging' : ''}
     >
         {imageFile ?
-            <img src={imageUrl} alt={'uploaded_file'} />
+            <img src={imageUrl} alt={'uploaded_file'} onDrop={dropHandler} />
             : // placeholder when no image
             <div id='drag-border' onDrop={dropHandler}>
                 <i className='far fa-file-image' />

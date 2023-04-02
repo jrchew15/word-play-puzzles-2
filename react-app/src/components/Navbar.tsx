@@ -3,7 +3,7 @@ import { Dispatch, MouseEventHandler, SetStateAction, useState } from 'react';
 import { appUseSelector, totalState } from '../store';
 import UserDropdown from './UserDropdown';
 import { Modal } from '../context/Modal';
-// import User from './User';
+import User from './User';
 
 import './nav.css'
 
@@ -66,7 +66,7 @@ const NavBar = (props: { showUserDropdown: boolean, setShowUserDropdown: Dispatc
     {
       showModal && currentUser && <Modal onClose={() => setShowModal(false)}>
         <div>Hello</div>
-        {/* <User userId={currentUser.id} setShowModal={setShowModal} /> */}
+        <User userId={currentUser.id} setShowModal={setShowModal} />
       </Modal>
     }
   </>);

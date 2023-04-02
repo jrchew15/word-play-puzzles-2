@@ -23,6 +23,8 @@ import { user } from './classes/userTypes';
 // import WordleWonModalContent from './components/Wordle/WordleWonModalContent';
 
 import './index.css'
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import UserSettings from './components/UserSettings';
 
 function App() {
   const [loaded, setLoaded] = useState<boolean>(false);
@@ -66,6 +68,9 @@ function App() {
           <Route exact path={'/login'}>
             <LoginPage />
           </Route>
+          <ProtectedRoute exact path={'/settings'}>
+            <UserSettings />
+          </ProtectedRoute>
           <Route exact path={'/'}>
             <SplashPage />
           </Route>

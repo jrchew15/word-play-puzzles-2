@@ -81,9 +81,6 @@ export const logout = () => async (dispatch: Dispatch<PayloadAction<null>>): Pro
 export const editUserThunk = (userId: number, payload: userEdit) => async (dispatch: Dispatch<PayloadAction<user>>) => {
     const formData = new FormData();
 
-    if (payload.id !== undefined) {
-        formData.append('id', payload.id.toString())
-    }
     if (payload.username !== undefined) {
         formData.append('username', payload.username)
     }
