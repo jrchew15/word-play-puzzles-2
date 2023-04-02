@@ -8,7 +8,7 @@ import '../WordGon/wordgon-list.css';
 import './carousel.css'
 import { wordgon } from "../../classes/wordgonTypes";
 
-export default function PuzzlesOfTheDay(props: { setLoaded: Dispatch<SetStateAction<boolean>> }) {
+export default function PuzzlesOfTheDay(props: { loaded: boolean, setLoaded: Dispatch<SetStateAction<boolean>> }) {
     const [puzzles, setPuzzles] = useState<wordgon[]>([])
     const history = useHistory();
     const now = new Date();
@@ -37,7 +37,7 @@ export default function PuzzlesOfTheDay(props: { setLoaded: Dispatch<SetStateAct
         }
     }, [makingWordle])
 
-    return (
+    return loaded ? (
         <>
             {puzzles.length > 0 && <div id='the-pod'>
                 <h2 style={{ color: 'whitesmoke' }}>Today's Puzzles:</h2>
@@ -65,8 +65,7 @@ export default function PuzzlesOfTheDay(props: { setLoaded: Dispatch<SetStateAct
             <h2>Past Puzzles of the Day</h2>
             <PuzzleCarousel puzzles={puzzles.slice(1)} />
         </>
-    )
-
+    ) : null
 }
 
 export function parseDate(date: string): string {

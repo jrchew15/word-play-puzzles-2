@@ -8,7 +8,7 @@ import NavBar from './components/Navbar';
 // import ProtectedRoute from './components/auth/ProtectedRoute';
 import SplashPage from './components/SplashPage';
 // import Puzzle from './components/WordGon/Puzzle';
-// import Homepage from './Homepage';
+import Homepage from './components/Homepage';
 // import User from './components/User';
 // import BadRoute from './components/BadRoute';
 import { authenticate } from './store/user';
@@ -77,7 +77,10 @@ function App() {
           <ProtectedRoute path='/wordles/:wordleId' exact>
             <WordlePuzzle />
           </ProtectedRoute>
-          <Route exact path={'/'}>
+          <Route path='/' exact={true} >
+            {currentUser ? <Homepage /> : <Redirect to='/welcome' />}
+          </Route>
+          <Route exact path={'/welcome'}>
             <SplashPage />
           </Route>
         </Switch>

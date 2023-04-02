@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { MouseEventHandler, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ListableBoxAndLetters } from "../WordGon/WordGonBox";
 import { color_dict, puzzleDifficulty } from "../../utils/puzzleFunctions";
@@ -16,7 +16,7 @@ export default function PuzzleCarousel(props: { puzzles: wordgon[] }) {
     // scrollPlace can be 'start', 'end', or '', used to toggle inactivity
     const [scrollPlace, setScrollPlace] = useState('start')
 
-    function scrollLeftEvent(e) {
+    const scrollLeftEvent: MouseEventHandler = (e) => {
         if (carouselRef && carouselRef.current) {
             let nextIncr = carouselRef.current.scrollLeft - 3 * cardWidth - (carouselRef.current.scrollLeft % cardWidth)
             carouselRef.current.scroll(nextIncr, 0)
@@ -28,7 +28,7 @@ export default function PuzzleCarousel(props: { puzzles: wordgon[] }) {
         }
     }
 
-    function scrollRightEvent(e) {
+    const scrollRightEvent: MouseEventHandler = (e) => {
         if (carouselRef && carouselRef.current) {
             let nextIncr = carouselRef.current.scrollLeft + 3 * cardWidth - (carouselRef.current.scrollLeft % cardWidth)
             carouselRef.current.scroll(nextIncr, 0)
