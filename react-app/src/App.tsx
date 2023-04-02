@@ -18,8 +18,8 @@ import { appUseSelector, totalState } from "./store";
 import { user } from './classes/userTypes';
 // import UnregisteredPuzzle from './components/WordGon/UnregisteredPuzzle';
 // import SignUpPrompt from './components/auth/SignUpPrompt';
-// import WordleTodayRedirect from './components/Carousels/WordleTodayRedirect';
-// import WordlePuzzle from './components/Wordle/WordlePuzzle';
+import WordleTodayRedirect from './components/Wordle/WordleTodayRedirect';
+import WordlePuzzle from './components/Wordle/WordlePuzzle';
 // import WordleWonModalContent from './components/Wordle/WordleWonModalContent';
 
 import './index.css'
@@ -70,6 +70,12 @@ function App() {
           </Route>
           <ProtectedRoute exact path={'/settings'}>
             <UserSettings />
+          </ProtectedRoute>
+          <Route path='/wordles/today' exact>
+            <WordleTodayRedirect />
+          </Route>
+          <ProtectedRoute path='/wordles/:wordleId' exact>
+            <WordlePuzzle />
           </ProtectedRoute>
           <Route exact path={'/'}>
             <SplashPage />
