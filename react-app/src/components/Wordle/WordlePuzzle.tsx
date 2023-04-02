@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Dispatch, SetStateAction, FormEventHandler, ChangeEventHandler, KeyboardEventHandler, MouseEventHandler } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
-import { checkWordsTable } from "../../utils/wordChecks";
+import { checkWordsTable } from "../../utils/wordchecks";
 import { EmptyRow, CurrentRow, AnimatedRow } from "./WordleRow";
 import WordleKeyboard from "./WordleKeyboard";
 import WordleLoader from "./WordleLoader";
@@ -10,29 +9,30 @@ import { Modal } from "../../context/Modal";
 import { makeRandomWordle, findWordlePuzzle, findWordleSession, updateWordleSession } from "./wordleFunctions";
 import WordleWonModalContent from "./WordleWonModalContent";
 import './wordle-puzzle.css';
+import { wordle, wordleSession } from "../../classes/wordleTypes";
 
 export default function WordlePuzzle() {
-    const puzzleId = useParams().wordleId;
+    const puzzleId = +useParams<{ wordleId: string }>().wordleId;
     let history = useHistory();
     let dispatch = useDispatch();
 
-    const [guesses, setGuesses] = useState([])
-    const [currentGuess, setCurrentGuess] = useState('')
+    const [guesses, setGuesses] = useState<string[]>([])
+    const [currentGuess, setCurrentGuess] = useState<string>('')
 
-    const [errors, setErrors] = useState([])
-    const [completed, setCompleted] = useState(false)
+    const [errors, setErrors] = useState<string[]>([])
+    const [completed, setCompleted] = useState<boolean>(false)
 
-    const [session, setSession] = useState(null)
-    const [showModal, setShowModal] = useState(false)
-    const [won, setWon] = useState(false)
+    const [session, setSession] = useState<null | wordleSession>(null)
+    const [showModal, setShowModal] = useState<boolean>(false)
+    const [won, setWon] = useState<boolean>(false)
 
     // submitting boolean used in a useEffect dependency array
     // prevents multiple submission
-    const [submitting, setSubmitting] = useState(false)
+    const [submitting, setSubmitting] = useState<boolean>(false)
 
-    const formRef = useRef(null);
+    const formRef = useRef<null | HTMLInputElement>(null);
 
-    const [puzzle, setPuzzle] = useState(null)
+    const [puzzle, setPuzzle] = useState<null | wordle>(null)
 
     //find puzzle
     useEffect(() => {
@@ -41,7 +41,9 @@ export default function WordlePuzzle() {
 
     //find session when puzzle is found
     useEffect(() => {
-        findWordleSession(puzzle, dispatch, history, setSession, setCompleted)
+        if (puzzle) {
+            findWordleSession(puzzle, dispatch, history, setSession, setCompleted)
+        }
     }, [puzzle, dispatch, history, setSession, setCompleted])
 
     // display progress from found session
@@ -49,14 +51,14 @@ export default function WordlePuzzle() {
         if (session && session.guesses.length) {
             let guessArr = session.guesses.split(',')
             setGuesses(guessArr)
-            setWon(session.completed && guessArr[guessArr.length - 1] === puzzle.word)
+            setWon(session.completed && guessArr[guessArr.length - 1] === (puzzle && puzzle.word))
         }
     }, [session, setGuesses, setWon])
 
     // submission handler wrapped in useEffect
     // prevents multiple submissions by watching for submitting boolean in dependency array
     useEffect(() => {
-        if (!submitting || !formRef) return
+        if (!puzzle || !session || !submitting || !formRef) return
 
         (async () => {
 
@@ -84,16 +86,16 @@ export default function WordlePuzzle() {
 
     if (!puzzle || !session) return null
 
-    function handleSubmit(e) {
+    const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
         setSubmitting(true)
     }
 
-    function handleChange(e) {
+    const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         setCurrentGuess(e.target.value)
     }
 
-    function handleKey(e) {
+    const handleKey: KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (e.ctrlKey) {
             // prevent pasting
             if (e.key.toLowerCase() === 'v') e.preventDefault()
@@ -110,7 +112,7 @@ export default function WordlePuzzle() {
         }
     }
     // focuses 'hidden' form element when clicking anywhere on puzzle
-    function focusForm(e) {
+    const focusForm: MouseEventHandler<HTMLDivElement> = (e) => {
         if (formRef?.current) {
             formRef.current.focus()
         }
@@ -151,7 +153,7 @@ export default function WordlePuzzle() {
                 </form>
             }
             <WordleKeyboard word={puzzle.word} guesses={guesses} currentGuess={currentGuess} setCurrentGuess={setCurrentGuess} setSubmitting={setSubmitting} />
-            <EndModal num_guesses={session.num_guesses} />
+            <EndModal />
             {completed && <button id='view-stats-button' onClick={() => setShowModal(true)}>View Stats</button>}
         </div >
     )
@@ -159,7 +161,7 @@ export default function WordlePuzzle() {
     // displays when puzzle is completed
     // nested to prevent prop drilling
     function EndModal() {
-        return showModal && (
+        return showModal && puzzle ? (
             <Modal onClose={() => setShowModal(false)}>
                 <div id='complete-modal'>
                     {won ? (
@@ -174,6 +176,6 @@ export default function WordlePuzzle() {
                     </div>
                 </div>
             </Modal>
-        )
+        ) : null
     }
 }

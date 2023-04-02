@@ -29,3 +29,10 @@ export const wordleSessionPlaceholder: wordleSession = {
 export interface normalizedWordleSessions {
     [id: number]: wordleSession
 }
+
+export interface wordleStats {
+    [numGuesses: number]: number;
+    min?: number;
+    average?: number;
+    total?: number;
+}
