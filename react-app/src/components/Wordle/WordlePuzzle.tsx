@@ -10,6 +10,7 @@ import { makeRandomWordle, findWordlePuzzle, findWordleSession, updateWordleSess
 import WordleWonModalContent from "./WordleWonModalContent";
 import './wordle-puzzle.css';
 import { wordle, wordleSession } from "../../classes/wordleTypes";
+import { thunkUpdateWordleSession } from "../../store/wordle";
 
 export default function WordlePuzzle() {
     const puzzleId = +useParams<{ wordleId: string }>().wordleId;
@@ -67,10 +68,12 @@ export default function WordlePuzzle() {
 
             if (valid) {
                 // update session
-                const errData = await updateWordleSession(puzzle, session, currentGuess, setCompleted, setWon, setShowModal, setGuesses, setCurrentGuess);
-                if (errData) {
+                // const errData = await updateWordleSession(puzzle, session, currentGuess, setCompleted, setWon, setShowModal, setGuesses, setCurrentGuess);
+                const res = await thunkUpdateWordleSession({ puzzleId, sessionId: session.id, newGuess: currentGuess })(dispatch)
+
+                if (res) {
                     // if db update error
-                    setErrors(errData.errors);
+                    setErrors(res.errors);
                     setTimeout(() => { setErrors([]) }, 2000);
                 }
             } else {

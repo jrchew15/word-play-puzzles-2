@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, Slice, ThunkAction } from "@reduxjs/toolkit";
-import { Dispatch } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { totalState } from ".";
 import { errorResponse } from "../classes";
 import { wordleSession, normalizedWordleSessions } from "../classes/wordleTypes";
@@ -20,8 +20,8 @@ const wordleSlice: Slice = createSlice({
 export default wordleSlice.reducer;
 export const { setWordleSession, loadWordleSessions, deleteWordleSession } = wordleSlice.actions;
 
-export const thunkAddWordleSession = (puzzleId: number): ThunkAction<Promise<wordleSession | errorResponse>, totalState, unknown, PayloadAction<wordleSession>> => {
-    return async (dispatch) => {
+export const thunkAddWordleSession = (puzzleId: number) => {
+    return async (dispatch: Dispatch<PayloadAction<wordleSession>>) => {
         const res = await fetch(`/api/wordles/${puzzleId}/sessions`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
@@ -36,16 +36,17 @@ export const thunkAddWordleSession = (puzzleId: number): ThunkAction<Promise<wor
     }
 }
 
-export const thunkUpdateWordleSession = (payload: { puzzleId: number, sessionId: number, newGuess: string }): ThunkAction<Promise<wordleSession | errorResponse>, totalState, unknown, PayloadAction<wordleSession>> => {
+export const thunkUpdateWordleSession = (payload: { puzzleId: number, sessionId: number, newGuess: string }) => {
     return async (dispatch: Dispatch<PayloadAction<wordleSession>>) => {
         const res = await fetch(`/api/wordles/${payload.puzzleId}/sessions/${payload.sessionId}`, {
             method: 'PUT',
             headers: { 'content-type': 'application/json' },
-            body: JSON.stringify({ newGuess: payload.newGuess })
+            body: JSON.stringify({ newGuess: payload.newGuess.toLowerCase() })
         });
         if (res.ok) {
             const data = await res.json() as wordleSession;
             dispatch(setWordleSession(data));
+            // return null;
         }
         const errData = await res.json() as errorResponse;
         return errData;
