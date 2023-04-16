@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { RouterChildContext } from "react-router";
 import { wordle, wordleSession } from "../../classes/wordleTypes";
 import { authenticate } from "../../store/user";
+import { thunkAddWordleSession } from "../../store/wordle";
 
 export function checkWordleGuess(word: string[5], guess: string[5]) {
     // assigns colors to each letter of guess
@@ -29,7 +30,11 @@ export function checkWordleGuess(word: string[5], guess: string[5]) {
 }
 
 // setGuesses and setSession may be passed in to clear history if navigating from a puzzle page
-export async function makeRandomWordle(history: RouterChildContext['router']['history'], setGuesses: null | Dispatch<SetStateAction<string[]>> = null, setSession: null | Dispatch<SetStateAction<wordleSession | null>> = null, daily = false) {
+export async function makeRandomWordle(
+    history: RouterChildContext['router']['history'],
+    setGuesses: null | Dispatch<SetStateAction<string[]>> = null,
+    setSession: null | Dispatch<SetStateAction<wordleSession | null>> = null,
+    daily = false) {
     // when not making a new daily wordle, query for an existing puzzles that user has not attempted
     if (!daily) {
         const existingRes = await fetch('/api/wordles/random')
@@ -83,31 +88,41 @@ export async function findWordlePuzzle(puzzleId: number, setPuzzle: Dispatch<Set
     history.push('/404')
 }
 
-export async function findWordleSession(puzzle: wordle, dispatch: Dispatch<any>, history: RouterChildContext['router']['history'], setSession: Dispatch<SetStateAction<null | wordleSession>>, setCompleted: Dispatch<SetStateAction<boolean>>) {
+export async function findWordleSession(puzzle: wordle, dispatch: Dispatch<any>, history: RouterChildContext['router']['history'], setCompleted: Dispatch<SetStateAction<boolean>>, setMakingSession: Dispatch<SetStateAction<boolean>>) {
 
     if (!puzzle) return
     const res = await fetch(`/api/wordles/${puzzle.id}/sessions/current`)
     const data = await res.json()
 
     if (res.ok) {
-        setSession(data)
         setCompleted(data.completed)
         return
     }
 
-    if (data.errors.includes('session not found')) {
 
+    if (data.errors.includes('session not found')) {
+        console.log('DATA:', data)
+        setMakingSession(true)
         // If no session found, create a session
-        const newRes = await fetch(
-            `/api/wordles/${puzzle.id}/sessions`,
-            { method: 'POST' }
-        );
-        const newData = await newRes.json();
+        // const newRes = await fetch(
+        //     `/api/wordles/${puzzle.id}/sessions`,
+        //     { method: 'POST' }
+        // );
+        // const newData = await newRes.json();
+        // await dispatch(authenticate())
+        // await thunkAddWordleSession()
+        // setCompleted(false)
+        // return
+        const res = await thunkAddWordleSession(puzzle.id)(dispatch);
+        if (res !== null) {
+            return res
+        }
+
         await dispatch(authenticate())
-        setSession(newData)
-        setCompleted(false)
+        setCompleted(false);
         return
     }
+
     history.push('/404')
 }
 

@@ -78,7 +78,7 @@ function App() {
             <WordlePuzzle />
           </ProtectedRoute>
           <Route path='/' exact={true} >
-            {currentUser ? <Homepage /> : <Redirect to='/welcome' />}
+            {currentUser && currentUser.id ? <Homepage /> : <Redirect to='/welcome' />}
           </Route>
           <Route exact path={'/welcome'}>
             <SplashPage />

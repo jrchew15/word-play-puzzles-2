@@ -110,9 +110,9 @@ def edit_user(id):
 @user_routes.route('/current/wordgon_sessions')
 @login_required
 def get_user_wordgon_sessions():
-    return {session.id: session.to_dict() for session in current_user.wordgon_sessions}
+    return {session.puzzle_id: session.to_dict() for session in current_user.wordgon_sessions}
 
 @user_routes.route('/current/wordle_sessions')
 @login_required
 def get_user_wordle_sessions():
-    return {session.id: session.to_dict() for session in current_user.wordle_sessions}
+    return {session.puzzle_id: session.to_dict() for session in current_user.wordle_sessions}

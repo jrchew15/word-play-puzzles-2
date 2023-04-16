@@ -1,9 +1,9 @@
 import { MouseEventHandler, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { ListableBoxAndLetters } from "../WordGon/WordGonBox";
+// import { ListableBoxAndLetters } from "../WordGon/WordGonBox";
 import { color_dict, puzzleDifficulty } from "../../utils/puzzleFunctions";
 import { parseDate } from "./PuzzlesOfTheDay";
-import { DetailsByStatus } from "../WordGon/WordGonBox";
+// import { DetailsByStatus } from "../WordGon/WordGonBox";
 import { wordgon } from "../../classes/wordgonTypes";
 
 export default function PuzzleCarousel(props: { puzzles: wordgon[] }) {
@@ -47,8 +47,8 @@ export default function PuzzleCarousel(props: { puzzles: wordgon[] }) {
                     <span style={{ margin: '5px 0' }}>{puzzle.puzzleDay !== 'None' ? parseDate(puzzle.puzzleDay) : 'Word-Gon #' + puzzle.id}</span>
                 </div>
                 <div style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <ListableBoxAndLetters letters={puzzle.letters} puzzleId={puzzle.id} difficulty={puzzleDifficulty(puzzle)} />
-                    <DetailsByStatus puzzleId={puzzle.id} />
+                    {/* <ListableBoxAndLetters letters={puzzle.letters} puzzleId={puzzle.id} difficulty={puzzleDifficulty(puzzle)} />
+                    <DetailsByStatus puzzleId={puzzle.id} /> */}
                 </div>
             </div>)}
         </div>

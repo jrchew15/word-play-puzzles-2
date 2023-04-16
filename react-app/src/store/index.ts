@@ -6,6 +6,8 @@ import userReducer from './user';
 import wordgonReducer from './wordgon';
 import wordleReducer from './wordle';
 import { user } from '../classes/userTypes';
+import { wordgon, wordgonSession } from '../classes/wordgonTypes';
+import { wordleSession } from '../classes/wordleTypes';
 
 const rootReducer = combineReducers({ user: userReducer, wordgon: wordgonReducer, wordle: wordleReducer });
 
@@ -26,8 +28,8 @@ export default function initializeStore() {
 
 export interface totalState {
     user: user,
-    wordgon: {},
-    wordle: {}
+    wordgon: { [id: number]: wordgonSession },
+    wordle: { [id: number]: wordleSession }
 }
 
 export const appUseSelector: TypedUseSelectorHook<totalState> = useSelector;

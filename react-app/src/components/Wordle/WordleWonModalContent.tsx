@@ -11,6 +11,7 @@ export default function WordleWonModalContent(props: { wordle_id: number }) {
 
     const currentUser: user = appUseSelector((state: totalState) => state.user)
     useEffect(() => {
+        console.log('SET', globalStats);
         (async () => {
             // refetch session to ensure db has updated
             if (!puzzleSession) {

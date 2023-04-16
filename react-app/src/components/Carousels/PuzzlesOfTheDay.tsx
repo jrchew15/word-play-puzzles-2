@@ -1,10 +1,10 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useHistory } from "react-router-dom";
-import { ListableBoxAndLetters, DetailsByStatus } from "../WordGon/WordGonBox";
+// import { ListableBoxAndLetters, DetailsByStatus } from "../WordGon/WordGonBox";
 import PuzzleCarousel from "./PuzzleCarousel";
 import { puzzleDifficulty, dbDateToDateObj } from "../../utils/puzzleFunctions";
 import { makeRandomWordle } from "../Wordle/wordleFunctions";
-import '../WordGon/wordgon-list.css';
+// import '../WordGon/wordgon-list.css';
 import './carousel.css'
 import { wordgon } from "../../classes/wordgonTypes";
 
@@ -37,7 +37,7 @@ export default function PuzzlesOfTheDay(props: { loaded: boolean, setLoaded: Dis
         }
     }, [makingWordle])
 
-    return loaded ? (
+    return props.loaded ? (
         <>
             {puzzles.length > 0 && <div id='the-pod'>
                 <h2 style={{ color: 'whitesmoke' }}>Today's Puzzles:</h2>
@@ -51,8 +51,8 @@ export default function PuzzlesOfTheDay(props: { loaded: boolean, setLoaded: Dis
                             <span style={{ margin: '5px 0' }}>{parseDate(puzzles[0].puzzleDay)}</span>
                         </div>
                         <div style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <ListableBoxAndLetters letters={puzzles[0].letters} puzzleId={puzzles[0].id} difficulty={puzzleDifficulty(puzzles[0])} />
-                            <DetailsByStatus puzzleId={puzzles[0].id} />
+                            {/* <ListableBoxAndLetters letters={puzzles[0].letters} puzzleId={puzzles[0].id} difficulty={puzzleDifficulty(puzzles[0])} />
+                            <DetailsByStatus puzzleId={puzzles[0].id} /> */}
                         </div>
                     </div>
                     <div className="puzzle-card wordle" onClick={() => setMakingWordle(true)}>

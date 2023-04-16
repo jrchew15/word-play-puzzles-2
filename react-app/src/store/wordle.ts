@@ -9,7 +9,7 @@ const wordleSlice: Slice = createSlice({
     initialState: {},
     reducers: {
         setWordleSession(state, action: PayloadAction<wordleSession>): void {
-            state.id = action.payload;
+            state[action.payload.puzzleId] = action.payload;
         },
         loadWordleSessions(state, action: PayloadAction<normalizedWordleSessions>): normalizedWordleSessions {
             return action.payload
@@ -21,7 +21,7 @@ export default wordleSlice.reducer;
 export const { setWordleSession, loadWordleSessions, deleteWordleSession } = wordleSlice.actions;
 
 export const thunkAddWordleSession = (puzzleId: number) => {
-    return async (dispatch: Dispatch<PayloadAction<wordleSession>>) => {
+    return async (dispatch: Dispatch<PayloadAction<wordleSession>>): Promise<null | errorResponse> => {
         const res = await fetch(`/api/wordles/${puzzleId}/sessions`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
@@ -29,7 +29,7 @@ export const thunkAddWordleSession = (puzzleId: number) => {
         if (res.ok) {
             const data = await res.json() as wordleSession;
             await dispatch(setWordleSession(data));
-            return data;
+            return null;
         }
         const errData = await res.json() as errorResponse;
         return errData;
@@ -46,7 +46,7 @@ export const thunkUpdateWordleSession = (payload: { puzzleId: number, sessionId:
         if (res.ok) {
             const data = await res.json() as wordleSession;
             dispatch(setWordleSession(data));
-            // return null;
+            return null;
         }
         const errData = await res.json() as errorResponse;
         return errData;

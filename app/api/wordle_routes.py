@@ -76,6 +76,9 @@ def add_wordle_session(id):
 
     if puzzle is None:
         return {'errors':['Puzzle not found']}, 401
+    session = WordleSession.query.filter(db.and_(WordleSession.puzzle_id == id, WordleSession.user_id == current_user.id)).one_or_none()
+    if session:
+        return session.to_dict()
 
     new_session = WordleSession(
         puzzle_id=id,

@@ -10,7 +10,9 @@ import { makeRandomWordle, findWordlePuzzle, findWordleSession, updateWordleSess
 import WordleWonModalContent from "./WordleWonModalContent";
 import './wordle-puzzle.css';
 import { wordle, wordleSession } from "../../classes/wordleTypes";
-import { thunkUpdateWordleSession } from "../../store/wordle";
+import { thunkAddWordleSession, thunkUpdateWordleSession } from "../../store/wordle";
+import { appUseSelector, totalState } from "../../store";
+import { async } from "q";
 
 export default function WordlePuzzle() {
     const puzzleId = +useParams<{ wordleId: string }>().wordleId;
@@ -22,8 +24,10 @@ export default function WordlePuzzle() {
 
     const [errors, setErrors] = useState<string[]>([])
     const [completed, setCompleted] = useState<boolean>(false)
+    const [makingSession, setMakingSession] = useState<boolean>(false)
 
-    const [session, setSession] = useState<null | wordleSession>(null)
+    // const [session, setSession] = useState<null | wordleSession>(null)
+    const session: wordleSession | null = appUseSelector((state: totalState) => state.wordle)[puzzleId] || null;
     const [showModal, setShowModal] = useState<boolean>(false)
     const [won, setWon] = useState<boolean>(false)
 
@@ -40,12 +44,23 @@ export default function WordlePuzzle() {
         findWordlePuzzle(puzzleId, setPuzzle, history)
     }, [puzzleId, setPuzzle])
 
-    //find session when puzzle is found
+    // find session when puzzle is found
     useEffect(() => {
-        if (puzzle) {
-            findWordleSession(puzzle, dispatch, history, setSession, setCompleted)
+        if (puzzle && !session && !makingSession) {
+            console.log(puzzle, session)
+            findWordleSession(puzzle, dispatch, history, setCompleted, setMakingSession)
         }
-    }, [puzzle, dispatch, history, setSession, setCompleted])
+    }, [puzzle, dispatch, history, setCompleted])
+
+    // useEffect(() => {
+    //     if (puzzle && (puzzle.id === puzzleId) && !session && !makingSession) {
+    //         setMakingSession(true);
+    //         (async () => {
+    //             let res = await thunkAddWordleSession(puzzle.id)(dispatch);
+    //             if (res) setErrors(res.errors)
+    //         })()
+    //     }
+    // }, [puzzle, session, setErrors, thunkAddWordleSession])
 
     // display progress from found session
     useEffect(() => {
@@ -75,6 +90,8 @@ export default function WordlePuzzle() {
                     // if db update error
                     setErrors(res.errors);
                     setTimeout(() => { setErrors([]) }, 2000);
+                } else {
+                    setCurrentGuess('')
                 }
             } else {
                 // if invalid word, display error for 2 seconds
@@ -175,7 +192,7 @@ export default function WordlePuzzle() {
                     </>}
                     <div id='wordle-buttons'>
                         <button className="modal-button" onClick={() => { history.push('/') }}>Back to puzzles</button>
-                        <button className="modal-button" onClick={() => { setShowModal(false); makeRandomWordle(history, setGuesses, setSession) }}>Random Wordle</button>
+                        <button className="modal-button" onClick={() => { setShowModal(false); makeRandomWordle(history, setGuesses, null) }}>Random Wordle</button>
                     </div>
                 </div>
             </Modal>
