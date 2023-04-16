@@ -1,7 +1,13 @@
-from models.comments import Comment
+from .models import db, User, Wordle, WordleSession
 
-def read_children():
-    comment = Comment.query.get(1)
+def removeWordleRepeats():
+    sessions = WordleSession.query.all()
 
-    dictionary = comment.to_dict()
-    print(dictionary)
+    user_puzzle_pairs = set()
+
+    for session in sessions:
+        if (session.user_id, session.puzzle_id) in user_puzzle_pairs:
+            print('***********************',session.to_dict())
+            db.session.delete(session)
+        db.session.commit()
+        user_puzzle_pairs.add((session.user_id,session.puzzle_id))

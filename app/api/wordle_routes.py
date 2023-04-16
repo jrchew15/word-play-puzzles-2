@@ -149,3 +149,9 @@ def wordle_leaders():
         .limit(3)
     top = db.session.execute(stmt).all()
     return {'leaders':[dict(x) for x in top]}
+
+@wordle_routes.route('/cleanup')
+def cleanup():
+    from ..db_tester import removeWordleRepeats
+    removeWordleRepeats()
+    return {'message':'route hit'}
